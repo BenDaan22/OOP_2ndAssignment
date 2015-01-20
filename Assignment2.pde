@@ -1,4 +1,9 @@
 /*
+  Author: Ben Joshua Daan
+  
+  Date: January 13 2015
+
+/*
 DIT OOP Assignment 2 Starter Code
 =================================
 Loads player properties from an xml file
@@ -22,7 +27,7 @@ void setup()
   backsound = minim.loadFile("arcade.mp3", 2048);
   //backsound.play();
   //backsound.loop();
-  size(500, 500);
+  size(500, 700);
   setUpPlayerControllers();
   
   
@@ -33,7 +38,7 @@ void setup()
 void draw()
 {
   //start background image
-  image(start_screen,0,0,height,width);
+  image(start_screen,0,0,width,height);
   
   if(key == 'q')
   {
@@ -44,10 +49,17 @@ void draw()
   {
     background(0);
     
+    /*
     for(Player player:players)
     {
       player.update();
       player.display();
+    }
+    */
+    for(int i =0 ; i < players.size(); i++)
+    {
+      players.get(i).update();
+      players.get(i).display();
     }
   }
 }
@@ -103,7 +115,7 @@ void setUpPlayerControllers()
     int x = (i + 1) * gap;
     
     p1.pos.x = x; //controls the x position of the player at the start of the game
-    p1.pos.y =200; //controls the y position of the player at the start of the game
+    p1.pos.y =650; //controls the y position of the player at the start of the game
     players.add(p1);
     
     /*

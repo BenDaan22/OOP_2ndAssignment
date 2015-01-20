@@ -14,6 +14,8 @@ class Player
   float w,h;
   float theta;
   int speed;
+  int x_coord;
+  int y_coord;
   Player()
   {
     pos = new PVector(width / 2, height / 2);
@@ -32,9 +34,11 @@ class Player
     this.button2 = button2;
     
     theta=0;
-    speed = 2;
+    speed = 4;
     w=40;
     h=40;
+    x_coord = 40;
+    y_coord = 40;
   }
   Player(int index, color colour, XML xml)
   {
@@ -59,16 +63,14 @@ class Player
     if (checkKey(up))
     {
       //pos.y -= 5;
-     // pos.y = (pos.y - speed) + ly;
-      pos.y = pos.y + ly;
-      pos.x = pos.x  + lx;
+      pos.x += lx * speed;
+      pos.y += ly * speed;
     }
     if (checkKey(down))
     {
      // pos.y += 5;
-      //pos.y = (pos.y + speed) - ly;
-      pos.y = pos.y - ly;
-      pos.x = pos.x - lx;
+      pos.x -= lx * speed;
+      pos.y -= ly * speed;
     }
     if (checkKey(left))
     {
@@ -117,14 +119,14 @@ class Player
     
     
     fill(255);
-    rect(0,0, w,h); //outer square
+    rect(x_coord -40 , y_coord -40 , w,h); //outer square
     
     fill(colour);
-    rect(10,10,w/2,h/2); //inner square
+    rect(x_coord - 30, y_coord-30 ,w/2,h/2); //inner square
     
     //wheels
-    rect(-10,-10,w-30,h+20); //left wheel
-    rect(40,-10,w-30,h+20); //right wheel
+    rect(x_coord - 50 , y_coord - 50 ,w-30,h+20); //left wheel
+    rect(x_coord,y_coord - 50 ,w-30,h+20); //right wheel
     
     //cannon
     rect(15,10,w-30,-h);
