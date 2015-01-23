@@ -10,10 +10,15 @@ Loads player properties from an xml file
 See: https://github.com/skooter500/DT228-OOP
 */
 ArrayList<Player> players = new ArrayList<Player>();
+ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+
 boolean[] keys = new boolean[526];
 import ddf.minim.*; // to include sound file
 
 AudioPlayer backsound; // to include sound file
+AudioPlayer shoot;
+
 Minim minim;//audio context
 
 //insert background images
@@ -25,20 +30,43 @@ void setup()
 {
   minim = new Minim(this);
   backsound = minim.loadFile("arcade.mp3", 2048);
-  //backsound.play();
-  //backsound.loop();
-  size(500, 700);
+  shoot = minim.loadFile("Explosion4.wav", 2048);
+  
+  //backsound.play(); // to play the sound file
+  //backsound.loop(); // to make the background sound
+  size(1000, 600);
   setUpPlayerControllers();
   
   
   //to input images
   start_screen = loadImage("tank_wars.jpg"); // start game background
   
+  //create the number of enemies
+  for(int i= 0 ; i < 10; i++)
+  {
+    Enemy enemy = new Enemy(random(20,40),random(100 ,width),random(height/2,height));
+    players.add(enemy);
+    enemies.add(enemy);
+    
+  }//end for loop
+  
 }
 void draw()
 {
+  textSize(15);
+  
   //start background image
   image(start_screen,0,0,width,height);
+  
+  //Instructions
+  text("Press Q to start the game", 20,250);
+  text("Player 1 movements are W(up), S(down), A(left), D(right)",20, 300);
+  text("Player 1 to shoot press E", 20, 320);
+  
+  text("Player 2 movements are I(up), K(down), J(left), L(right)", 20, 350);
+  text("Player 2 to shoot press P", 20, 370);
+  
+  
   
   if(key == 'q')
   {
@@ -56,11 +84,23 @@ void draw()
       player.display();
     }
     */
+    
+    text("Enjoy and Play Safe",450,30);
+    text("Dodge the moving Enemies AND Shoot them with everything you got (Smiley Face)",250,50);
+    
+    if(keyPressed && key == 'e' || keyPressed && key == 'p')
+    {
+      shoot.play();
+      shoot.rewind();
+      
+    }
+    
     for(int i =0 ; i < players.size(); i++)
     {
       players.get(i).update();
       players.get(i).display();
-    }
+    }//end for loop
+    
   }
 }
 
@@ -110,18 +150,20 @@ void setUpPlayerControllers()
   for(int i = 0 ; i < children.length ; i ++)
   {
     XML playerXML = children[i];
-    Player p1 = new Player(i, color(random(0, 255), random(0, 255), random(0, 255)), playerXML);
-   // Player p2 = new Player(i, color(random(0, 255), random(0, 255), random(0, 255)), playerXML);
-    int x = (i + 1) * gap;
+    Player p = new Player(i, color(random(0, 255), random(0, 255), random(0, 255)), playerXML);
+    //Player p2 = new Player(i, color(random(0, 255), random(0, 255), random(0, 255)), playerXML);
     
-    p1.pos.x = x; //controls the x position of the player at the start of the game
-    p1.pos.y =650; //controls the y position of the player at the start of the game
-    players.add(p1);
+    int x = (i*16+1)*width/20;
+    //int x = (i + 1 ) * gap;
+    
+    p.pos.x = x; //controls the x position of the player at the start of the game
+    p.pos.y =height/2; //controls the y position of the player at the start of the game
+    players.add(p);
     
     /*
     p2.pos.x = x;
     p2.pos.y = 100; //controls the y position of the player at the start of the game
     players.add(p2);
     */
-  }
+  }//end for
 }

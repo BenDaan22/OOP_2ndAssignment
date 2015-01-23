@@ -13,9 +13,17 @@ class Player
   
   float w,h;
   float theta;
+  float trackTime = 1.0f / 60.0f;
+  float fireRate = 10.0f; // how fast each bullet is fired
+  float passBy = 0.0f;
+  float toPass = 1.0f / fireRate;
+  
   int speed;
   int x_coord;
   int y_coord;
+  
+  boolean live; 
+  
   Player()
   {
     pos = new PVector(width / 2, height / 2);
@@ -33,8 +41,8 @@ class Player
     this.button1 = button1;
     this.button2 = button2;
     
-    theta=0;
-    speed = 4;
+    theta= 0 ;
+    speed = 10;
     w=40;
     h=40;
     x_coord = 40;
@@ -56,6 +64,7 @@ class Player
   void update()
   {
     float lx, ly;
+    passBy += trackTime;
     
     lx = sin(theta);
     ly = -cos(theta);
@@ -75,12 +84,12 @@ class Player
     if (checkKey(left))
     {
       //pos.x -= 5;
-      theta -= 0.01f;
+      theta -= 0.1f;
     }
     if (checkKey(right))
     {
       //pos.x += 5;
-      theta +=0.01f;
+      theta +=0.1f;
     }
     if (checkKey(start))
     {
@@ -89,11 +98,22 @@ class Player
     if (checkKey(button1))
     {
       println("Player " + index + " button 1");
+      if(passBy > toPass)
+      {
+        Bullet bullet = new Bullet();
+        bullet.pos.x = pos.x;
+        bullet.pos.y = pos.y;
+        bullet.theta = theta;
+        players.add(bullet);
+        passBy = 0.0f;
+      }
+  
     }
     if (checkKey(button2))
     {
       println("Player " + index + " butt2");
     }
+    
   }
   void display()
   {
