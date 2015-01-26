@@ -25,9 +25,12 @@ Minim minim;//audio context
 PImage start_screen;
 
 boolean begin = false;
+int lives;
 
 void setup()
 {
+  lives = 20;
+  
   minim = new Minim(this);
   backsound = minim.loadFile("arcade.mp3", 2048);
   shoot = minim.loadFile("Explosion4.wav", 2048);
@@ -42,7 +45,7 @@ void setup()
   start_screen = loadImage("tank_wars.jpg"); // start game background
   
   //create the number of enemies
-  for(int i= 0 ; i < 10; i++)
+  for(int i= 0 ; i < 20; i++)
   {
     Enemy enemy = new Enemy(random(20,40),random(100 ,width),random(height/2,height));
     players.add(enemy);
@@ -59,12 +62,13 @@ void draw()
   image(start_screen,0,0,width,height);
   
   //Instructions
-  text("Press Q to start the game", 20,250);
-  text("Player 1 movements are W(up), S(down), A(left), D(right)",20, 300);
-  text("Player 1 to shoot press E", 20, 320);
+  text("Press Q to start the game", 20,300);
+  text("Player 1 movements are W(up), S(down), A(left), D(right)",20, 350);
+  text("Player 1 to shoot press E", 20, 370);
   
-  text("Player 2 movements are I(up), K(down), J(left), L(right)", 20, 350);
-  text("Player 2 to shoot press P", 20, 370);
+  text("Player 2 movements are I(up), K(down), J(left), L(right)", 20, 400);
+  text("Player 2 to shoot press P", 20, 420);
+  text("NOTE : Both Player1 and Player2 share the same life points and same Score", 20, 450);
   
   
   
@@ -90,8 +94,8 @@ void draw()
     
     if(keyPressed && key == 'e' || keyPressed && key == 'p')
     {
-      shoot.play();
-      shoot.rewind();
+      //shoot.play();
+      //shoot.rewind();
       
     }
     
@@ -101,7 +105,26 @@ void draw()
       players.get(i).display();
     }//end for loop
     
-  }
+    
+    text("Lives: " + lives, 50,50);
+    
+    //check for collision    
+   for(int i = 0 ; i < players.size() - 1 ; i ++)
+    {
+      Player player1 = players.get(i);
+      for (int j = i + 1 ; j < enemies.size() ; j ++)
+      {
+        Enemy enemy1 = enemies.get(j);
+        if (player1.collides(enemy1))
+        {
+          println("Player " + i + " collides with" + "Enemy" + j);
+          lives --;
+        }
+      }//end inner for loop
+    }//end outer for loop
+    
+    
+  }//end if
 }
 
 
