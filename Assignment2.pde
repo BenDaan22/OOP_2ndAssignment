@@ -25,7 +25,9 @@ Minim minim;//audio context
 PImage start_screen;
 
 boolean begin = false;
+
 int lives;
+int counter=0; //a counter to show the Game over screen
 
 void setup()
 {
@@ -125,6 +127,30 @@ void draw()
     
     
   }//end if
+  
+  if (lives == 0)
+  { 
+    counter = 1;
+    
+  }
+        
+  if(counter == 1)
+  {
+    textSize(40);
+    background(0);
+    text("GAME OVER!!", width/2-80,  height/2);
+    text("Press Q to play again and Good Luck", width/2 - 300, height/2 + 60);
+         
+          
+    if(keyPressed && key == 'q')
+    {
+      begin = true;
+      counter = 0;
+      lives = 20;
+    }
+          
+   }
+  
 }
 
 
