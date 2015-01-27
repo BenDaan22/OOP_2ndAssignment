@@ -19,9 +19,9 @@ boolean[] keys = new boolean[526];
 import ddf.minim.*; // to include sound file
 
 AudioPlayer backsound; // to include sound file
-AudioPlayer shoot;
-AudioPlayer scored;
-AudioPlayer alien;
+AudioPlayer shoot; // the sound fille when the player wants to shoot bullets
+AudioPlayer scored; // the sound file if the player scored
+AudioPlayer alien; // the sound file if the player hit one of the aliens
 
 Minim minim;//audio context
 
