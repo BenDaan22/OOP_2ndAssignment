@@ -182,7 +182,7 @@ void draw()
     {
       begin = true;
       counter = 0;
-      lives = 20;
+      lives = 10;
       score = 0;
     }
           
