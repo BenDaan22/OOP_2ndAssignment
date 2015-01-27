@@ -1,14 +1,16 @@
 class Enemy extends Player
 {
-  float radius;
+  float w,h;
   float x,y;
   
-  float movementX = 0.40f; // to move the enemies' X- axis
-  float movementY = 0.40f; // to move the enemies' Y- axis
+  float movementX = 0.50f; // to move the enemies' X- axis
+  float movementY = 0.60f; // to move the enemies' Y- axis
   
-  Enemy(float radius, float x, float y)
+  Enemy(float w, float h, float x, float y)
   {
-    this.radius = radius;
+    this.w = w;
+    this.h = h;
+    
     pos.x = x;
     pos.y = y;
   }
@@ -23,14 +25,15 @@ class Enemy extends Player
   {
     stroke(255);
     
+    //Allows the Enemies to move and to bounce back from the edge of the screen
     for(int i=0; i < enemies.size(); i ++)
     {
-      if(pos.x > width - radius || pos.x < 0)
+      if(pos.x > width - w || pos.x < 0)
       {
         movementX = -movementX; // this makes the enemies bounce back when it hits the width
       }
       
-      if(pos.y > height - radius || pos.y < 0)
+      if(pos.y > height - h || pos.y < 0)
       {
         movementY = -movementY; //this makes the enemies bounce back when it hits the height
       }
@@ -41,8 +44,16 @@ class Enemy extends Player
       
     }//end for loop
     
-    fill(255,255,0); // colour yellow
-    rect(pos.x,pos.y , radius, radius); // draws the enemy
+    
+    // draws the enemy
+    fill(0,255,0); // colour green
+    rect(pos.x,pos.y , w, h); 
+    
+    fill(0,255,255);
+    stroke(0);
+    rect(pos.x + 5, pos.y +5, 4,2); // left eye of the enemy
+    rect(pos.x + 12, pos.y +5 , 4,2); // right eye of the enemy
+    rect(pos.x + 5 , pos. y + 15, 10, 4); // mouth of the enemy
     
   }  
   

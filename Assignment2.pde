@@ -9,8 +9,10 @@ DIT OOP Assignment 2 Starter Code
 Loads player properties from an xml file
 See: https://github.com/skooter500/DT228-OOP
 */
+
 ArrayList<Player> players = new ArrayList<Player>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+ArrayList<Score> scores = new ArrayList<Score>();
 
 
 boolean[] keys = new boolean[526];
@@ -26,12 +28,16 @@ PImage start_screen;
 
 boolean begin = false;
 
-int lives;
+int lives; // to keep track of how many lives  left
+int score;
 int counter=0; //a counter to show the Game over screen
+
+int valueToRemove; // to delete the enemy from the array list
 
 void setup()
 {
-  lives = 20;
+  score = 0;
+  lives = 10;
   
   minim = new Minim(this);
   backsound = minim.loadFile("arcade.mp3", 2048);
@@ -47,13 +53,22 @@ void setup()
   start_screen = loadImage("tank_wars.jpg"); // start game background
   
   //create the number of enemies
-  for(int i= 0 ; i < 20; i++)
+  for(int i= 0 ; i < 15; i++)
   {
-    Enemy enemy = new Enemy(random(20,40),random(100 ,width),random(height/2,height));
+    Enemy enemy = new Enemy(random(20,40),random(20,40),random(100 ,width),random(height/2,height));
     players.add(enemy);
     enemies.add(enemy);
     
   }//end for loop
+  
+  //create the score objects
+  for(int i = 0 ; i < 5; i ++)
+  {
+    Score score = new Score(40,5, random(0,width), random(0, height));
+    players.add(score);
+    scores.add(score);
+
+  }
   
 }
 void draw()
@@ -83,16 +98,9 @@ void draw()
   {
     background(0);
     
-    /*
-    for(Player player:players)
-    {
-      player.update();
-      player.display();
-    }
-    */
-    
     text("Enjoy and Play Safe",450,30);
     text("Dodge the moving Enemies AND Shoot them with everything you got (Smiley Face)",250,50);
+    text("Get the Plus Sign to gain points", 400, 70);
     
     if(keyPressed && key == 'e' || keyPressed && key == 'p')
     {
@@ -109,8 +117,9 @@ void draw()
     
     
     text("Lives: " + lives, 50,50);
+     text("Score: " + score, 50,80);
     
-    //check for collision    
+    //check for collision between enemy and player 
    for(int i = 0 ; i < players.size() - 1 ; i ++)
     {
       Player player1 = players.get(i);
@@ -119,12 +128,39 @@ void draw()
         Enemy enemy1 = enemies.get(j);
         if (player1.collides(enemy1))
         {
+          println("valueToRemove is : " + valueToRemove);
+          
           println("Player " + i + " collides with" + "Enemy" + j);
           lives --;
-        }
+          
+          valueToRemove = j; //when the enemy is touched it will be deleted
+          
+          //to delete the enemy from the array list
+          if(j == valueToRemove)
+          {
+            enemies.remove(j);
+          }//end inside if
+        }//and outer if
       }//end inner for loop
     }//end outer for loop
     
+    //check for score and player collision
+    for(int i = 0 ; i < players.size() - 1 ; i ++)
+    {
+      Player player1 = players.get(i);
+      for (int j = i + 1 ; j < scores.size() ; j ++)
+      {
+        Score score1 = scores.get(j);
+        if (player1.collided(score1))
+        {
+          
+          println("Player " + i + "collides with " + "Score " + j);
+          score++;
+
+        }//end if
+        
+      }
+    }
     
   }//end if
   
@@ -140,13 +176,14 @@ void draw()
     background(0);
     text("GAME OVER!!", width/2-80,  height/2);
     text("Press Q to play again and Good Luck", width/2 - 300, height/2 + 60);
-         
+    text("Your Score is: " + score, width/2 - 100, height/2 + 100);
           
     if(keyPressed && key == 'q')
     {
       begin = true;
       counter = 0;
       lives = 20;
+      score = 0;
     }
           
    }
@@ -199,8 +236,7 @@ void setUpPlayerControllers()
   for(int i = 0 ; i < children.length ; i ++)
   {
     XML playerXML = children[i];
-    Player p = new Player(i, color(random(0, 255), random(0, 255), random(0, 255)), playerXML);
-    //Player p2 = new Player(i, color(random(0, 255), random(0, 255), random(0, 255)), playerXML);
+    Player p = new Player(i, color(random(0, 255), random(0, 255), random(0, 255)), playerXML);    
     
     int x = (i*16+1)*width/20;
     //int x = (i + 1 ) * gap;
@@ -209,10 +245,5 @@ void setUpPlayerControllers()
     p.pos.y =height/2; //controls the y position of the player at the start of the game
     players.add(p);
     
-    /*
-    p2.pos.x = x;
-    p2.pos.y = 100; //controls the y position of the player at the start of the game
-    players.add(p2);
-    */
   }//end for
 }

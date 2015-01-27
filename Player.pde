@@ -11,22 +11,22 @@ class Player
   int index;
   color colour;
   
-  float w,h;
+  float w,h; // width and height of th player
   float theta;
   float trackTime = 1.0f / 60.0f;
   float fireRate = 10.0f; // how fast each bullet is fired
-  float passBy = 0.0f;
+  float passBy = 0.0f; // how many bullets has passed by
   float toPass = 1.0f / fireRate;
   
   int speed;
-  int x_coord;
-  int y_coord;
+  int x_coord; // x coordination of the player
+  int y_coord; // y coordination of the player
   
   boolean live;  // to see if the bullet will live or not
   
   Player()
   {
-    pos = new PVector(width / 2, height / 2);
+    pos = new PVector(width / 2, height / 2); // determines the position of everything
   }
   Player(int index, color colour, char up, char down, char left, char right, char start, char button1, char button2)
   {
@@ -71,24 +71,20 @@ class Player
     
     if (checkKey(up))
     {
-      //pos.y -= 5;
       pos.x += lx * speed;
       pos.y += ly * speed;
     }
     if (checkKey(down))
     {
-     // pos.y += 5;
       pos.x -= lx * speed;
       pos.y -= ly * speed;
     }
     if (checkKey(left))
     {
-      //pos.x -= 5;
       theta -= 0.1f;
     }
     if (checkKey(right))
     {
-      //pos.x += 5;
       theta +=0.1f;
     }
     if (checkKey(start))
@@ -100,12 +96,12 @@ class Player
       println("Player " + index + " button 1");
       if(passBy > toPass)
       {
-        Bullet bullet = new Bullet();
-        bullet.pos.x = pos.x;
-        bullet.pos.y = pos.y;
+        Bullet bullet = new Bullet(); // creates the Bullet 
+        bullet.pos.x = pos.x; // uses the player's x position
+        bullet.pos.y = pos.y; // uses the player's y position
         bullet.theta = theta;
-        players.add(bullet);
-        passBy = 0.0f;
+        players.add(bullet); 
+        passBy = 0.0f; // resets the bullets that has passed by
       }
   
     }
@@ -120,22 +116,6 @@ class Player
     pushMatrix();
     translate(pos.x,pos.y);
     rotate(theta);
-    
-    
-    /*
-    fill(255);
-    rect(pos.x-10,pos.y-10,40,40); //outer square
-    stroke(colour);
-    fill(colour);
-    rect(pos.x, pos.y, 20, 20); //main square
-    
-    //wheels
-    rect(pos.x-20,pos.y-20,10,60); //left wheel
-    rect(pos.x+30,pos.y-20,10,60); //right wheel
-    
-    //cannon
-    rect(pos.x+5,pos.y,10,-35);
-    */
     
     
     fill(255);
@@ -155,9 +135,10 @@ class Player
     popMatrix();
   }
   
-  boolean collides(Player p)
+  // determines if there is collision between the player and the enemy
+  boolean collides(Player p) 
   {
-     //check if they collide
+     //check if they dont collide
     if (p.pos.x + p.w < pos.x) // to check the x axis of the player if it hits an enemy
     {
       return false;
@@ -180,5 +161,33 @@ class Player
     
     
   }//end boolean
+  
+  
+  // determines if there is collision between the player and the score objects
+  boolean collided(Player play)
+  {
+     //check if they dont  collide
+    if (play.pos.x + play.w < pos.x) // to check the x axis of the player if it hits a score object
+    {
+      return false;
+    }
+    if (play.pos.x > pos.x + w) // to check the x axis of the player if it hits a score object
+    {
+      return false;
+    }
+    if (play.pos.y > pos.y + h) // to check the y axis of the player if it hits a score object
+    {
+      return false;
+    }
+    if (play.pos.y + play.h < pos.y) // to check the y axis of the player if it hits a score object
+    {
+      return false;
+    }
+    
+    // If they collided then its true
+    return true;
+    
+    
+  }
   
 }//end class Player

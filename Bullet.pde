@@ -11,10 +11,10 @@ class Bullet extends Player
   {
     pos.x = width /2 ;
     pos.y = height / 2;
-    x1 =20;
-    x2 = x1;
+    x1 = 18;
+    x2 = 5;
     y1 = -30;
-    y2 = y1 - 10;
+    y2 = 10;
   }
   
   void update()
@@ -45,7 +45,8 @@ class Bullet extends Player
     rotate(theta);
     
     stroke(255);
-    line(x1,y1, x2 , y2);
+ 
+    rect(x1,y1,x2,y2); // bullet
     
     
     popMatrix(); //restores the prior coordinate of the player object
