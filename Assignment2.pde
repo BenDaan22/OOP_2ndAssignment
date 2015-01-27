@@ -20,6 +20,8 @@ import ddf.minim.*; // to include sound file
 
 AudioPlayer backsound; // to include sound file
 AudioPlayer shoot;
+AudioPlayer scored;
+AudioPlayer alien;
 
 Minim minim;//audio context
 
@@ -42,9 +44,11 @@ void setup()
   minim = new Minim(this);
   backsound = minim.loadFile("arcade.mp3", 2048);
   shoot = minim.loadFile("Explosion4.wav", 2048);
+  scored = minim.loadFile("ding.mp3", 2048);
+  alien = minim.loadFile("alien.mp3", 2048);
   
-  //backsound.play(); // to play the sound file
-  //backsound.loop(); // to make the background sound
+  backsound.play(); // to play the sound file
+  backsound.loop(); // to make the background sound
   size(1000, 600);
   setUpPlayerControllers();
   
@@ -104,8 +108,8 @@ void draw()
     
     if(keyPressed && key == 'e' || keyPressed && key == 'p')
     {
-      //shoot.play();
-      //shoot.rewind();
+      shoot.play();
+      shoot.rewind();
       
     }
     
@@ -132,6 +136,8 @@ void draw()
           
           println("Player " + i + " collides with" + "Enemy" + j);
           lives --;
+          alien.play();
+          alien.rewind();
           
           valueToRemove = j; //when the enemy is touched it will be deleted
           
@@ -156,6 +162,8 @@ void draw()
           
           println("Player " + i + "collides with " + "Score " + j);
           score++;
+          scored.play();
+          scored.rewind();
 
         }//end if
         
