@@ -5,16 +5,16 @@ class Bullet extends Player
   float showBullet = 5.0f; // determines when the bullet will die
   
   int x1, y1; // first points for the bullet
-  int x2, y2; // second points for the bullet
+  int w, h; // second points for the bullet
   
   Bullet()
   {
     pos.x = width /2 ;
     pos.y = height / 2;
     x1 = 18;
-    x2 = 5;
+    w = 5;
     y1 = -30;
-    y2 = 10;
+    h = 10;
   }
   
   void update()
@@ -34,7 +34,22 @@ class Bullet extends Player
       
     }
     
-    
+    //check for bullet and enemy collision
+    for (int j = 0 ; j < enemies.size() ; j ++)
+    {
+      Enemy enemy = enemies.get(j); // checks which enemy will be hit
+      if (collision(enemy))
+      {
+        //if you hit an enemy with a bullet it diappears and you gain a points
+        score++; 
+        
+        enemy.pos.x = 10000; // will make the enemy disappear
+        enemy.pos.y = 10000; // will make the enemy disappear
+            
+          
+      }//end if
+        
+    }
     
   }//end void update
   
@@ -46,12 +61,39 @@ class Bullet extends Player
     
     stroke(255);
  
-    rect(x1,y1,x2,y2); // bullet
+    rect(x1,y1,w,h); // bullet
     
     
     popMatrix(); //restores the prior coordinate of the player object
     
   }//end void display
   
+  
+  //to check if the bullets hits an enemy
+  boolean collision(Enemy b)
+  {
+    //check if they collide
+    if (b.pos.x + b.w < pos.x)
+    {
+       return false;
+    }
+    if (b.pos.x > pos.x + w)
+    {
+      return false;
+    }
+    if (b.pos.y > pos.y + h)
+    {
+      return false;
+    }
+    if (b.pos.y + b.h < pos.y)
+    {
+      return false;
+    }
+      
+     // If they collided then its true
+     return true;
+      
+      
+   }
   
 }//end Bullet class

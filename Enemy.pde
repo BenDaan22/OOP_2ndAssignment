@@ -11,8 +11,8 @@ class Enemy extends Player
     this.w = w;
     this.h = h;
     
-    pos.x = x;
-    pos.y = y;
+    pos.x = x; // random positions
+    pos.y = y; // random positions
   }
   
   void update()

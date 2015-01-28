@@ -31,7 +31,7 @@ PImage start_screen;
 boolean begin = false;
 
 int lives; // to keep track of how many lives  left
-int score;
+int score; // keeps track of the score for the entire game
 int counter=0; //a counter to show the Game over screen
 
 int valueToRemove; // to delete the enemy from the array list
@@ -42,10 +42,10 @@ void setup()
   lives = 10;
   
   minim = new Minim(this);
-  backsound = minim.loadFile("arcade.mp3", 2048);
-  shoot = minim.loadFile("Explosion4.wav", 2048);
-  scored = minim.loadFile("ding.mp3", 2048);
-  alien = minim.loadFile("alien.mp3", 2048);
+  backsound = minim.loadFile("arcade.mp3", 2048); //this is the background sounds
+  shoot = minim.loadFile("Laser.wav", 2048); //when the player shoots
+  scored = minim.loadFile("ding.mp3", 2048); // when the player gets the plus sign for points
+  alien = minim.loadFile("alien.mp3", 2048); //when the player hits an alien enemy
   
   backsound.play(); // to play the sound file
   backsound.loop(); // to make the background sound
@@ -60,7 +60,7 @@ void setup()
   for(int i= 0 ; i < 15; i++)
   {
     Enemy enemy = new Enemy(random(20,40),random(20,40),random(100 ,width),random(height/2,height));
-    players.add(enemy);
+    players.add(enemy); //  draws the enemy objects
     enemies.add(enemy);
     
   }//end for loop
@@ -69,7 +69,7 @@ void setup()
   for(int i = 0 ; i < 5; i ++)
   {
     Score score = new Score(40,5, random(0,width), random(0, height));
-    players.add(score);
+    players.add(score); // draws the score object
     scores.add(score);
 
   }
@@ -84,7 +84,12 @@ void draw()
   
   //Instructions
   fill(255,255,0);
-  text("Press Q to start the game", 20,4q00);
+  
+  text("Enjoy and Play Safe",450,30);
+  text("Dodge the moving Enemies AND Shoot them with everything you got (Smiley Face)",250,50);
+  text("Get the Plus Sign to gain points", 400, 70);
+    
+  text("Press Q to start the game", 20,400);
   text("Player 1 movements are W(up), S(down), A(left), D(right)",20, 450);
   text("Player 1 to shoot press E", 20, 470);
   
@@ -96,10 +101,10 @@ void draw()
   
   if(key == 'q')
   {
-    begin = true;
+    begin = true; 
   }
   
-  if(begin == true)
+  if(begin == true) // executes everything if the begin boolean is true
   {
     background(0);
     
@@ -187,10 +192,11 @@ void draw()
     text("Press Q to play again and Good Luck", width/2 - 300, height/2 + 60);
     text("Your Score is: " + score, width/2 - 100, height/2 + 100);
           
-    if(keyPressed && key == 'q')
+    if(keyPressed && key == 'q') // If the player wants to play again
     {
+      //resets everything
       begin = true;
-      counter = 0;
+      counter = 0; 
       lives = 10;
       score = 0;
     }
