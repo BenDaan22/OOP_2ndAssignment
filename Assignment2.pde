@@ -54,7 +54,7 @@ void setup()
   
   
   //to input images
-  start_screen = loadImage("tank_wars.jpg"); // start game background
+  start_screen = loadImage("open_screen.jpg"); // start game background
   
   //create the number of enemies
   for(int i= 0 ; i < 15; i++)
@@ -83,13 +83,14 @@ void draw()
   image(start_screen,0,0,width,height);
   
   //Instructions
-  text("Press Q to start the game", 20,300);
-  text("Player 1 movements are W(up), S(down), A(left), D(right)",20, 350);
-  text("Player 1 to shoot press E", 20, 370);
+  fill(255,255,0);
+  text("Press Q to start the game", 20,4q00);
+  text("Player 1 movements are W(up), S(down), A(left), D(right)",20, 450);
+  text("Player 1 to shoot press E", 20, 470);
   
-  text("Player 2 movements are I(up), K(down), J(left), L(right)", 20, 400);
-  text("Player 2 to shoot press P", 20, 420);
-  text("NOTE : Both Player1 and Player2 share the same life points and same Score", 20, 450);
+  text("Player 2 movements are I(up), K(down), J(left), L(right)", 20, 500);
+  text("Player 2 to shoot press P", 20, 520);
+  text("NOTE : Both Player1 and Player2 share the same life points and same Score", 20, 550);
   
   
   
